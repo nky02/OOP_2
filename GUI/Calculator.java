@@ -2,26 +2,33 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Calculator {
+public class CalculatorWithInstruct {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Register and Calculator");
         frame.setSize(400, 500);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // CardLayout to switch between panels
         CardLayout cardLayout = new CardLayout();
         JPanel container = new JPanel(cardLayout);
 
-        // Registration Panel
         JPanel registerPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel usernameLabel = new JLabel("Username: ");
+        JLabel instructLabel = new JLabel("Register to Access Calculator", SwingConstants.CENTER);
+        instructLabel.setFont(new Font("Arial", Font.BOLD, 15));
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        registerPanel.add(instructLabel, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.gridy++;
+
+        JLabel usernameLabel = new JLabel("Username: ");
+        gbc.gridx = 0;
         registerPanel.add(usernameLabel, gbc);
 
         JTextField usernameField = new JTextField(15);
@@ -30,7 +37,7 @@ public class Calculator {
 
         JLabel passwordLabel = new JLabel("Password: ");
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy++;
         registerPanel.add(passwordLabel, gbc);
 
         JPasswordField passwordField = new JPasswordField(15);
@@ -39,7 +46,7 @@ public class Calculator {
 
         JLabel confirmPasswordLabel = new JLabel("Confirm Password: ");
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy++;
         registerPanel.add(confirmPasswordLabel, gbc);
 
         JPasswordField confirmPasswordField = new JPasswordField(15);
@@ -48,19 +55,16 @@ public class Calculator {
 
         JButton registerButton = new JButton("Register");
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy++;
         gbc.anchor = GridBagConstraints.CENTER;
         registerPanel.add(registerButton, gbc);
 
-        // Calculator Panel
         JPanel calculatorPanel = new JPanel(new BorderLayout());
 
-        // Display username in calculator panel
         JLabel welcomeLabel = new JLabel("", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
         calculatorPanel.add(welcomeLabel, BorderLayout.NORTH);
 
-        // Display area for calculations
         JTextField display = new JTextField();
         display.setHorizontalAlignment(JTextField.RIGHT);
         display.setEditable(false);
@@ -68,7 +72,6 @@ public class Calculator {
         display.setPreferredSize(new Dimension(0, 60));
         calculatorPanel.add(display, BorderLayout.CENTER);
 
-        // Button grid
         JPanel buttonPanel = new JPanel(new GridLayout(4, 4, 5, 5));
         String[] buttons = { "7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", "C", "=", "+" };
 
@@ -101,7 +104,6 @@ public class Calculator {
 
         calculatorPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Switch to calculator panel on successful registration
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
@@ -120,7 +122,6 @@ public class Calculator {
             }
         });
 
-        // Add panels to container
         container.add(registerPanel, "Register");
         container.add(calculatorPanel, "Calculator");
 
@@ -128,7 +129,6 @@ public class Calculator {
         frame.setVisible(true);
     }
 
-    // Evaluate expressions with spaces (e.g., "7 + 8 / 4 - 2")
     private static double evaluateExpression(String expression) {
         String[] tokens = expression.split(" ");
         double result = Double.parseDouble(tokens[0]);
